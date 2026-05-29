@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useMemo, useState } from "react";
-import { ArrowUpRight, Languages, Menu, Moon, X } from "lucide-react";
+import { ArrowUpRight, Languages, Menu, X } from "lucide-react";
+import { AnimatedLogo } from "@/components/animated-logo";
 import { content, languages, type Lang } from "@/lib/content";
 
 type LanguageContextValue = {
@@ -38,14 +39,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-[#f8f7f2] text-[#161612]">
         <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f8f7f2]/88 backdrop-blur-xl">
           <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <Link href="/" className="flex items-center gap-3" aria-label="Endmoon Studio home">
-              <span className="grid size-10 place-items-center rounded-md bg-[#161612] text-[#f8f7f2] shadow-[4px_4px_0_#25d7b7]">
-                <Moon size={20} fill="currentColor" />
-              </span>
-              <span className="leading-tight">
-                <span className="block text-sm font-black uppercase tracking-[0.18em]">Endmoon</span>
-                <span className="block text-xs font-semibold text-black/55">Game Studio</span>
-              </span>
+            <Link
+              href="/"
+              className="logo-home-link flex items-center"
+              aria-label={lang === "zh" ? "月之底游戏官网首页" : "Endmoon Studio home"}
+            >
+              <AnimatedLogo lang={lang} />
             </Link>
 
             <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
