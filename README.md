@@ -28,3 +28,10 @@ npm run build
 ## Content
 
 主要文案和项目数据在 `src/lib/content.ts`。临时视觉资产在 `public/assets/endmoon-showcase-triptych.png`，后续可替换为真实 Logo、游戏截图、KV 或角色图。
+
+## Delivery Notes
+
+- 语言切换使用前端会话状态，刷新后回到默认中文。
+- 联系表单仅做前端校验，不提交到服务器。
+- Figma 文件：`Endmoon Studio 官网视觉方向 V1`
+- 上线前事项见 `LAUNCH_CHECKLIST.md`。

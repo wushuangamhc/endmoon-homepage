@@ -54,9 +54,9 @@ export function GameCover({
   imagePosition?: string;
 }) {
   return (
-    <div className={`relative min-h-56 overflow-hidden rounded-md bg-gradient-to-br ${accent}`}>
+    <div className={`group relative min-h-56 overflow-hidden rounded-md bg-gradient-to-br ${accent}`}>
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-88"
+        className="absolute inset-0 bg-cover bg-center opacity-88 transition duration-500 group-hover:scale-105"
         style={{
           backgroundImage: "url('/assets/endmoon-showcase-triptych.png')",
           backgroundPosition: imagePosition,

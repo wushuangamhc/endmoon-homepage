@@ -16,7 +16,7 @@ export function HomePage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(110deg,#f8f7f2_0%,#f8f7f2_45%,#bdf8e9_45%,#bdf8e9_62%,#ffd36b_62%,#ffd36b_100%)]" />
         <div className="relative mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-          <div className="max-w-3xl">
+          <div className="enter-up max-w-3xl">
             <p className="mb-5 inline-flex rounded bg-white/75 px-3 py-2 text-sm font-black text-black/70 ring-1 ring-black/10">
               {brand.descriptor}
             </p>
@@ -33,7 +33,7 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="enter-up motion-delay-1 relative">
             <div className="rounded-md border border-black/12 bg-white/72 p-4 shadow-[10px_10px_0_#161612] backdrop-blur">
               <GameCover accent="from-[#25d7b7] via-[#ffe06b] to-[#ee4f8f]" title="Playable Worlds" />
               <div className="mt-4 grid grid-cols-3 gap-3">
@@ -56,7 +56,7 @@ export function HomePage() {
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {home.capabilities.map((item) => (
-            <article key={item.title} className="rounded-md border border-black/10 bg-white p-6 shadow-sm">
+            <article key={item.title} className="rounded-md border border-black/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
               <Zap className="text-[#25d7b7]" size={24} />
               <h3 className="mt-5 text-xl font-black">{item.title}</h3>
               <p className="mt-3 text-sm leading-6 text-black/62">{item.body}</p>
@@ -75,7 +75,7 @@ export function HomePage() {
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
             {games.map((game) => (
-              <article key={game.slug} className="rounded-md border border-black/10 bg-[#f8f7f2] p-3">
+              <article key={game.slug} className="rounded-md border border-black/10 bg-[#f8f7f2] p-3 transition hover:-translate-y-1 hover:shadow-lg">
                 <GameCover accent={game.accent} title={game.name[lang]} imagePosition={game.coverPosition} />
                 <div className="p-3">
                   <div className="mb-3 flex flex-wrap gap-2">
