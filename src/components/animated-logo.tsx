@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import type { Lang } from "@/lib/content";
 
@@ -45,7 +46,20 @@ const logoGlyphs: Record<Lang, { label: string; travel: number; glyphs: LogoGlyp
 
 export function AnimatedLogo({ lang }: { lang: Lang }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const logo = logoGlyphs[lang];
+  const charCount = logo.glyphs.length;
+  const logoTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.8, ease: [0.34, 1.56, 0.64, 1] as const };
+  const glyphTransition = (index: number) =>
+    prefersReducedMotion
+      ? { duration: 0 }
+      : {
+          duration: 0.4,
+          delay: isScrolled ? index * 0.05 : (charCount - index - 1) * 0.05,
+          ease: [0.34, 1.56, 0.64, 1] as const,
+        };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,23 +68,29 @@ export function AnimatedLogo({ lang }: { lang: Lang }) {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    document.addEventListener("scroll", handleScroll, { capture: true, passive: true });
-    const scrollCheck = window.setInterval(handleScroll, 250);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("scroll", handleScroll, { capture: true });
-      window.clearInterval(scrollCheck);
     };
   }, []);
 
   return (
-    <span
+    <motion.span
       className={`animated-logo animated-logo--${lang} ${isScrolled ? "is-swallowed" : ""}`}
       aria-hidden="true"
       style={{ "--logo-travel": `${logo.travel}px` } as CSSProperties}
+      whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }}
     >
-      <span className="animated-logo__mark">
+      <motion.span
+        className="animated-logo__mark"
+        animate={{
+          x: isScrolled ? logo.travel : 0,
+          rotate: isScrolled ? 360 : 0,
+          scale: isScrolled ? 1.15 : 1,
+        }}
+        transition={logoTransition}
+      >
         <Image
           src="/assets/logo/logo_icon.png"
           alt=""
@@ -79,19 +99,20 @@ export function AnimatedLogo({ lang }: { lang: Lang }) {
           className="animated-logo__mark-image"
           priority
         />
-      </span>
+      </motion.span>
 
       <span className="animated-logo__word" key={lang}>
         {logo.glyphs.map((glyph, index) => (
-          <span
+          <motion.span
             className="animated-logo__glyph"
             key={`${lang}-${glyph.alt}-${index}`}
-            style={
-              {
-                "--glyph-exit-delay": `${index * 50}ms`,
-                "--glyph-enter-delay": `${(logo.glyphs.length - index - 1) * 50}ms`,
-              } as CSSProperties
-            }
+            initial={{ opacity: 1, x: 0 }}
+            animate={{
+              opacity: isScrolled ? 0 : 1,
+              x: isScrolled ? -20 : 0,
+              scale: isScrolled ? 0.8 : 1,
+            }}
+            transition={glyphTransition(index)}
           >
             <Image
               src={glyph.src}
@@ -100,11 +121,11 @@ export function AnimatedLogo({ lang }: { lang: Lang }) {
               height={glyph.height}
               className="animated-logo__glyph-image"
             />
-          </span>
+          </motion.span>
         ))}
       </span>
 
       <span className="sr-only">{logo.label}</span>
-    </span>
+    </motion.span>
   );
 }
